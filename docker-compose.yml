@@ -1,0 +1,15 @@
+sailsindocker:
+      image: sailsindocker
+      ports:
+       - "1337:1337"
+      # volumes:
+      #  - .:/src
+      links:
+       - dnmonster
+       - redis_server
+dnmonster:
+  image: amouat/dnmonster:latest
+redis_server:
+  image: redis
+
+# 不建议用container做开发
