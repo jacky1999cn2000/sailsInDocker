@@ -106,7 +106,7 @@ docker build -t sailsindocker .
 docker run -it -p 1337:1337 -v $(pwd):/src --link dnmonster:dnmonster --link redis:redis_server --rm sailsindocker
 ```
 
-利用docker-compose: 
+利用docker-compose:
 
 ```javascript
 sailsindocker:
@@ -148,3 +148,11 @@ docker tag sailsindocker:latest jacky1999cn2000/sailsindocker:0.1
 docker login
 docker push jacky1999cn2000/sailsindocker:0.1
 ```
+
+将GitHub repository和DockerHub repository连起来，并automate build:
+
+1. 登录DockerHub,点击Create按钮,选择Create Automated Build(如果尚未link GitHub或BitBucket账户到DockerHub，需要先做link)
+2. 设置build settings,选择branch/tag,Dockerfile location等等
+3. save设置
+4. 点击Trigger做第一次Build(在Build Details里可以看build状态和logs)
+5. 修改源代码commit到GitHub,trigger自动build
