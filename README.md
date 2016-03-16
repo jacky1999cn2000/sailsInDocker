@@ -155,9 +155,10 @@ redis_server:
   image: redis
 
 # 不建议用container做开发,所以comment off了volumes
-# ENV:TEST 将执行 npm test,因为run完tests即退出，所以用 docker-compose up
-# ENV:PROD 将执行 npm start,因为process不会结束,所以可以用 docker-compose up -d 在后台执行
 ```
+
+ENV:TEST 将执行 npm test,因为run完tests即退出，所以用 docker-compose up
+ENV:PROD 将执行 npm start,因为process不会结束,所以可以用 docker-compose up -d 在后台执行
 
 ```javascript
 docker-compose up -d
