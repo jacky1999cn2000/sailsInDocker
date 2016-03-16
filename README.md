@@ -101,7 +101,7 @@ EXPOSE 1337
 CMD ["./cmd.sh"]
 ```
 
-cmd.sh
+cmd.sh (chmod +x ./cmd.sh)
 ```javascript
 #!/bin/bash
 set -e
@@ -191,3 +191,5 @@ docker push jacky1999cn2000/sailsindocker:0.1
 3. save设置
 4. 点击Trigger做第一次Build(在Build Details里可以看build状态和logs)
 5. 修改源代码commit到GitHub,trigger自动build
+
+TO BE CONTINUED: 8. Continuous Integration and Testing with Docker (Using Docker 115)
