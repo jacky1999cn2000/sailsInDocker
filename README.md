@@ -22,14 +22,19 @@ var request = require("co-request");
 
 //https://www.npmjs.com/package/promise-redis
 var redis = require('promise-redis')();
-var redis_client = redis.createClient({
-  //host:'192.168.99.100',
-  host:'redis_server',
-  port:'6379',
-  //store binary data in redis
-  // http://stackoverflow.com/questions/20732332/how-to-store-a-binary-object-in-redis-using
-  return_buffers: true
-});
+var redis_client;
+
+if(process.env.NODE_ENV != 'test'){
+  redis_client = redis.createClient({
+     //host:'192.168.99.100',
+     host:'redis_server',
+     port:'6379',
+     //store binary data in redis
+     // http://stackoverflow.com/questions/20732332/how-to-store-a-binary-object-in-redis-using
+     return_buffers: true
+   });
+}
+
 
 module.exports = {
 
@@ -93,7 +98,30 @@ WORKDIR /src
 
 EXPOSE 1337
 
-CMD npm start
+CMD ["./cmd.sh"]
+```
+
+cmd.sh
+```javascript
+#!/bin/bash
+set -e
+
+if [ "$ENV" = 'TEST' ]; then
+  echo "Running Test Server"
+  exec npm test
+else
+  echo "Running Production Server"
+  exec npm start
+fi
+```
+
+package.json
+```javascript
+"scripts": {
+  "develop": "nodemon -L app.js",
+  "start": "sails lift",
+  "test": "NODE_ENV=test mocha test/bootstrap.test.js test/unit/**/*.test.js"
+},
 ```
 
 利用docker engine(只建议利用docker engine来build image,运行的话还是用docker-compose):
@@ -110,10 +138,12 @@ docker run -it -p 1337:1337 -v $(pwd):/src --link dnmonster:dnmonster --link red
 
 ```javascript
 sailsindocker:
-      # build: . (# 不建议用container做开发)
       image: sailsindocker
       ports:
        - "1337:1337"
+      environment:
+        ENV: TEST
+        # ENV: PROD
       # volumes:
       #  - .:/src
       links:
@@ -123,6 +153,10 @@ dnmonster:
   image: amouat/dnmonster:latest
 redis_server:
   image: redis
+
+# 不建议用container做开发,所以comment off了volumes
+# ENV:TEST 将执行 npm test,因为run完tests即退出，所以用 docker-compose up
+# ENV:PROD 将执行 npm start,因为process不会结束,所以可以用 docker-compose up -d 在后台执行
 ```
 
 ```javascript

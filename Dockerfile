@@ -9,11 +9,12 @@ ADD package.json /src/package.json
 RUN cd src && npm install
 
 # add remaining source code to container so we can actually run the app
-ADD . /src
+# we should remove node_module folder when building image
+COPY . /src
 
 WORKDIR /src
 
 EXPOSE 1337
 
-# package.json "start": "nodemon -L app.js", -L flag enable nodemon to poll all file 
-CMD npm start
+# run different task based on passed in ENV 
+CMD ["./cmd.sh"]

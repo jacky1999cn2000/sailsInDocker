@@ -11,14 +11,19 @@ var request = require("co-request");
 
 //https://www.npmjs.com/package/promise-redis
 var redis = require('promise-redis')();
-var redis_client = redis.createClient({
-  //host:'192.168.99.100',
-  host:'redis_server',
-  port:'6379',
-  //store binary data in redis
-  // http://stackoverflow.com/questions/20732332/how-to-store-a-binary-object-in-redis-using
-  return_buffers: true
-});
+var redis_client;
+
+if(process.env.NODE_ENV != 'test'){
+  redis_client = redis.createClient({
+     //host:'192.168.99.100',
+     host:'redis_server',
+     port:'6379',
+     //store binary data in redis
+     // http://stackoverflow.com/questions/20732332/how-to-store-a-binary-object-in-redis-using
+     return_buffers: true
+   });
+}
+
 
 module.exports = {
 
