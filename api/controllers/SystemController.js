@@ -43,7 +43,7 @@ module.exports = {
           let requestSettings = {
                method: 'GET',
                //url: 'http://192.168.99.100:32768//monster/'+req.param('name')+'?size=80',
-               url: 'http://dnmonster:8080//monster/'+req.param('name')+'?size=80',
+               url: 'http://dnmonster:8080/monster/'+req.param('name')+'?size=80',
                encoding: null
           };
           let response = yield request(requestSettings);

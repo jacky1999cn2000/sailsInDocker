@@ -3,8 +3,8 @@ sailsindocker:
       ports:
        - "1337:1337"
       environment:
-        ENV: TEST
-        # ENV: PROD
+        # ENV: TEST
+        ENV: PROD
       # volumes:
       #  - .:/src
       links:
